@@ -43,6 +43,8 @@ on post-fs-data
     # Permissions Camera
     chown system radio /sys/class/camera/rear/rear_camfw
     chown system radio /sys/class/camera/rear/rear_camfw_full
+    chown system radio /sys/class/camera/rear/rear_checkfw_user
+    chown system radio /sys/class/camera/rear/rear_checkfw_factory
     chown system radio /sys/class/camera/rear/rear_camtype
     chown system radio /sys/class/camera/rear/rear_companionfw
     chown system radio /sys/class/camera/rear/rear_companionfw_full
@@ -51,6 +53,8 @@ on post-fs-data
     chown system radio /sys/class/camera/flash/rear_flash
     chown system radio /sys/class/camera/front/front_camfw
     chown system radio /sys/class/camera/front/front_camtype
+    chown system radio /sys/class/camera/front/front_checkfw_user
+    chown system radio /sys/class/camera/front/front_checkfw_factory
 
     # Permissions for Camera to flush cache buffers
     chown system system /sys/devices/virtual/sec/sec_misc/drop_caches
@@ -100,24 +104,6 @@ on post-fs-data
     # For kernel lock in BT/WiFi race condtion
     chmod 0600 /dev/btlock
     chown bluetooth bluetooth /dev/btlock
-
-###############################################################################
-# System LSI
-# Comment : add permission to device driver
-
-# NFC : Permissions for NFC
-    chmod 0660 /dev/sec-nfc
-# NFC : change owner
-    chown nfc nfc /dev/sec-nfc
-# NFC : create data/nfc for nv storage
-    mkdir /data/nfc 0700 nfc nfc
-    mkdir /data/nfc/param 0700 nfc nfc
-
-# Set up nfc test option
-    setprop snfc.test.fwdownload 2
-    setprop snfc.test.power      sec
-    setprop snfc.test.tag        sec
-###############################################################################
 
     # PMS DVFS
     chown radio system /sys/power/cpufreq_table
@@ -449,6 +435,7 @@ on fs
     chown system radio /sys/class/sensors/accelerometer_sensor/vendor
     chown system radio /sys/class/sensors/accelerometer_sensor/name
     chown system radio /sys/class/sensors/accelerometer_sensor/selftest
+    chown system radio /sys/class/sensors/accelerometer_sensor/lowpassfilter
 # Proximity_sensor
     chown system radio /sys/class/sensors/proximity_sensor/state
     chown system radio /sys/class/sensors/proximity_sensor/raw_data
@@ -460,6 +447,7 @@ on fs
     chown system radio /sys/class/sensors/proximity_sensor/thresh_low
     chown system radio /sys/class/sensors/proximity_sensor/barcode_emul_en
     chown system radio /sys/class/sensors/proximity_sensor/prox_offset_pass
+    chown system radio /sys/class/sensors/proximity_sensor/prox_trim
 # Light_sensor
     chown system radio /sys/class/sensors/light_sensor/lux
     chown system radio /sys/class/sensors/light_sensor/raw_data
@@ -479,6 +467,7 @@ on fs
     chown system radio /sys/class/sensors/magnetic_sensor/name
     chown system radio /sys/class/sensors/magnetic_sensor/selftest
     chown system radio /sys/class/sensors/magnetic_sensor/raw_data
+    chown system radio /sys/class/sensors/magnetic_sensor/status
 # HRM_sensor
     chown system radio /sys/class/sensors/hrm_sensor/eol_test
     chown system radio /sys/class/sensors/hrm_sensor/eol_test_result
@@ -492,6 +481,15 @@ on fs
     chown system radio /sys/class/sensors/hrm_sensor/lib_ver
     chown system radio /sys/class/sensors/hrm_sensor/name
     chown system radio /sys/class/sensors/hrm_sensor/vendor
+# Grip_sensor
+    chown system radio /sys/class/sensors/grip_sensor/vendor
+    chown system radio /sys/class/sensors/grip_sensor/name
+    chown system radio /sys/class/sensors/grip_sensor/raw_data
+    chown system radio /sys/class/sensors/grip_sensor/calibration
+    chown system radio /sys/class/sensors/grip_sensor/threshold
+    chown system radio /sys/class/sensors/grip_sensor/onoff
+    # MetaEvent
+    chown system radio /sys/class/sensors/sensor_dev/flush
 
 #Magnetic IIO
 # folders
@@ -833,6 +831,11 @@ on fs
     chown system radio /sys/class/sec/sec_barcode_emul/barcode_led_status
     chown system radio /sys/class/sec/sec_barcode_emul/barcode_ver_check
 
+# Audio 2 MIC (Audience)
+     chown media audio /sys/class/2mic/es325/preset
+     chown media audio /sys/class/2mic/es325/sleep
+     chown media audio /sys/class/2mic/es325/veq
+
 # FingerPrint_sensor
     chown system system /sys/class/fingerprint/fingerprint/ocp_check
 
@@ -930,12 +933,6 @@ service diag_mdlog_stop /system/bin/diag_mdlog -k
     user sdcard_rw
     group system qcom_diag sdcard_rw sdcard_r media_rw
     disabled
-    oneshot
-
-# deferred initcall
-service sec-sh /system/bin/sh /system/etc/init.sec.boot.sh
-    class main
-    user root
     oneshot
 
 # MobiCore startup

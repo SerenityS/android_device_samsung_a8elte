@@ -1,15 +1,15 @@
 USE_CAMERA_STUB := true
 
 # inherit from the proprietary version
--include vendor/samsung/slte/BoardConfigVendor.mk
+-include vendor/samsung/a8elte/BoardConfigVendor.mk
 
-LOCAL_PATH := device/samsung/slte
+LOCAL_PATH := device/samsung/a8elte
 
 TARGET_ARCH := arm
 TARGET_NO_BOOTLOADER := true
 
 # Assert
-TARGET_OTA_ASSERT_DEVICE := slte,sltexx,slteskt
+TARGET_OTA_ASSERT_DEVICE := a8elte,a8eltejv,a8eltexx
 
 # Platform
 TARGET_BOARD_PLATFORM := exynos5
@@ -46,18 +46,17 @@ BOARD_KERNEL_PAGESIZE := 2048
 #BOARD_KERNEL_CMDLINE := The bootloader ignores the cmdline from the boot.img
 #BOARD_KERNEL_SEPARATED_DT := true
 # Extracted with libbootimg
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt device/samsung/slte/dtb.img
+BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01000000 --tags_offset 0x00000100 --dt device/samsung/a8elte/dtb.img
 
 # fix this up by examining /proc/mtd on a running device
-BOARD_BOOTIMAGE_PARTITION_SIZE := 0x00a00000
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x00c00000
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2401239040
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 28219277312
+BOARD_BOOTIMAGE_PARTITION_SIZE := 10485760 #mmcblk0p9
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 12582912 #mmcblk0p10
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3145728000 #mmcblk0p19
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 27590131712 #mmcblk0p22
 BOARD_FLASH_BLOCK_SIZE := 131072
 
-#TARGET_PREBUILT_KERNEL := device/samsung/slte/kernel
-TARGET_KERNEL_CONFIG := cm_exynos5430-slteskt_defconfig
-TARGET_KERNEL_SOURCE := kernel/samsung/slte
+TARGET_KERNEL_CONFIG := cyanogenmod_a8eltejv_defconfig
+TARGET_KERNEL_SOURCE := kernel/samsung/a8elte
 # hardware/samsung_slsi/exynos/libhdmi_legacy
 TARGET_LINUX_KERNEL_VERSION := 3.10
 
@@ -124,6 +123,7 @@ WIFI_DRIVER_NVRAM_PATH_PARAM     := "/sys/module/dhd/parameters/nvram_path"
 WIFI_DRIVER_NVRAM_PATH           := "/etc/wifi/nvram_net.txt"
 WIFI_DRIVER_FW_PATH_STA          := "/etc/wifi/bcmdhd_sta.bin"
 WIFI_DRIVER_FW_PATH_AP           := "/etc/wifi/bcmdhd_apsta.bin"
+
 # MACLOADER
 BOARD_HAVE_SAMSUNG_WIFI := true
 
@@ -135,8 +135,8 @@ BOARD_BLUEDROID_VENDOR_CONF := $(LOCAL_PATH)/bluetooth/libbt_vndcfg.txt
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 
 ### NFC
-BOARD_NFC_CHIPSET := pn547
-BOARD_NFC_HAL_SUFFIX := $(TARGET_BOOTLOADER_BOARD_NAME)
+#BOARD_NFC_CHIPSET := pn547
+#BOARD_NFC_HAL_SUFFIX := $(TARGET_BOOTLOADER_BOARD_NAME)
 
 ### CAMERA
 # frameworks/av/services/camera/libcameraservice
@@ -171,9 +171,7 @@ CHARGING_ENABLED_PATH := /sys/class/power_supply/battery/batt_lp_charging
 BOARD_VENDOR := samsung
 BOARD_PROVIDES_LIBRIL := true
 # hardware/samsung/ril
-BOARD_MODEM_TYPE := xmm7260
-
-TARGET_IGNORE_RO_BOOT_REVISION := true
+BOARD_MODEM_TYPE := xmm7260 #SS333
 
 # RIL.java overwrite
 BOARD_RIL_CLASS := ../../../$(LOCAL_PATH)/ril
@@ -191,7 +189,7 @@ BOARD_HARDWARE_CLASS += hardware/samsung/cmhw
 
 # SELINUX
 BOARD_SEPOLICY_DIRS := \
-	device/samsung/slte/sepolicy
+	device/samsung/a8elte/sepolicy
 
 ###########################################################
 ### CYANOGEN RECOVERY

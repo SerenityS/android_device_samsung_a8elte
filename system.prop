@@ -1,12 +1,12 @@
 #
 # system.prop for slte
 #
-ro.product.model=SM-G850S
+ro.product.model=SM-A800F
 ro.product.brand=samsung
-ro.product.name=slteskt
-ro.product.device=slte
+ro.product.name=a8eltejv
+ro.product.device=a8elte
 
-ro.sf.lcd_density=320
+ro.sf.lcd_density=480
 
 #
 # RIL

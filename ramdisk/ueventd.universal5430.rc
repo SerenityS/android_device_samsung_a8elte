@@ -72,6 +72,7 @@
 
 # audio
 /dev/seiren               0660   system     audio
+/dev/i2c-20               0660   system     system
 
 # MobiCore
 /dev/mobicore             0600   drmrpc     drmrpc
@@ -114,3 +115,6 @@
 
 #SysScope
 /dev/block/mmcblk0p8      0660   system     system
+
+# Google FRP solution
+/dev/block/platform/15540000.dwmmc0/by-name/PERSISTENT    0660    system    system
